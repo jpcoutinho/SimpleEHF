@@ -1,6 +1,7 @@
 #define MAX_TASKS 10
 
 #include "./src/include/scheduler.h"
+#include "./src/include/energyManager.h"
 
 //#include "./src/include/radioTask.h"
 #include "./src/src/tasks/blinkSlowTask.h"

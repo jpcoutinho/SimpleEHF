@@ -12,23 +12,24 @@
 int binarySearch(Task** arr, int l, int r, int x);
 
 /**
- * A function to sort an array using shellSort.
+ * A function to sort tasks by priority using shellSort.
  *
- * This sum is the arithmetic sum, not some other kind of sum that only
- * mathematicians have heard of.
+ * This sorting method works better for bigger arrays.
  *
- * @param arr, n Container whose values are summed.
+ * @param arr an array of Task pointers.
+ * @param n 
  * @return void
  */
 void shellSort(Task** arr, int n);
 
 /**
- * A function to sort an array using insertionSort.
+ * A function to sort tasks by priority using insertionSort.
  *
- * This sum is the arithmetic sum, not some other kind of sum that only
- * mathematicians have heard of.
+ * This sorting method works better for smaller arrays.
  *
- * @param values Container whose values are summed.
- * @return sum of `values`, or 0.0 if `values` is empty.
+ *
+ * @param arr an array of Task pointers.
+ * @param n 
+ * @return void
  */
 void insertionSort(Task** arr, int n);

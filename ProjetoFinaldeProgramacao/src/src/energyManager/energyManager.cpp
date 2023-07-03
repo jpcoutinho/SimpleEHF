@@ -16,7 +16,7 @@ EnergyManager :: EnergyManager(float voltage, uint32_t interval){
 
 
 float EnergyManager ::  getVoltage(){
-    voltage = analogRead(A0);
+    float voltage = analogRead(A0);
 
     voltage = voltage * 5.0/1023;
 
@@ -43,7 +43,7 @@ void EnergyManager :: stopAutoMonitor(){
 }
 
 void EnergyManager :: onAutoMonitorEventRun(){
-
+    //Default implementation
 }
 
 

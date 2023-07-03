@@ -29,15 +29,53 @@ private:
     uint8_t tasksCount;
     Task* taskList[MAX_TASKS];
     EnergyManager* energyManager = nullptr;
+
+    /**
+    * A function to sort tasks added to the Scheduler by priority.
+    *
+    * @return void
+    */
+    void sortTaskList();
+
    
 
 public:
+    /**
+    * Scheduler constructor.
+    *
+    */
     Scheduler();
+
+    /**
+    * Scheduler constructor.
+    *
+    * @param energyManager a pointer to an EnergyManager instance
+    */
     Scheduler(EnergyManager* energyManager);
 
+
+    /**
+    * Adds a task to the Scheduler.
+    *
+    * @param task a pointer to a task instance
+    * @return true if task was added successfully, false if was not added 
+    */
     bool addTask(Task* task);
+    
+    
+    /**
+    * Removes a task from the Scheduler.
+    *
+    * @param taskID the ID of the task that we want to remove
+    * @return true if task was removed successfully, false if wasn't 
+    */
     bool removeTask(uint8_t taskID);
-    void sortTaskList();
+
+
+    /**
+    * A function to process tasks in the scheduler.
+    *
+    */
     void procTasks();
 
 };
