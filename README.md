@@ -3,7 +3,7 @@ A simple framework for energy harvesting applications on Arduino
 
 # Introduction
 
-SimpleEHF is a framework to help programers develop energy harvesting applications on Arduino. Written in C++, SimpleEHF focuses on ease of use and includes a non-preemptive priority based scheduler, ideal for task-based energy harvesting applications.
+SimpleEHF is a framework to help programers develop energy harvesting applications on Arduino. Written in C++, SimpleEHF focuses on ease of use and includes an energy management module and a non-preemptive priority based scheduler, ideal for task-based energy harvesting applications.
 
 To guarantee easy extensibility, SimpleEHF offers a set of extension points to commom hardware components present in energy harvesting devices. The following list gives an overview of the available hardware interfaces, to each of which you may add your own extension. To facilitate your life, SimpleEHF ships with a set of interfaces commonly used by these hardware components: 
 
@@ -16,9 +16,12 @@ The Radio interface defines common radio interactions
 
 # Installation
 
-To use SimpleEHF is actually quite easy. After downloading this repository, unpack the compressed folder to your favorite location to work from. Depending on the IDE you are using, the following steps may differ. We will only describe the general settings you need to achieve with Arduino IDE. 
+To use SimpleEHF is actually quite easy. After downloading this repository, unpack the compressed folder to your favorite location to work from. Depending on the IDE you are using, the following steps may differ. We will only describe the general settings you need to achieve with Arduino IDE. The Simple Energy Harvesting Framework (SimpleEHF) caters to a diverse range of users and use cases. Some potential users and use cases include:
+•	Researchers and students: Conducting experiments and studies related to intermittent computing and energy harvesting.
+•	IoT Developers: Building energy-efficient IoT applications that rely on intermittent power sources.
+•	Hobbyists and Tinkerers: Exploring innovative projects with limited electronics knowledge but a desire to harness energy efficiently.
 
-##Setup in Arduino IDE
+## Setup in Arduino IDE
  To setup SimpleEHF for Arduino IDE, you need to create a new sketch in Arduino IDE and move the unzipped SimpleEHF folder to the sketch folder. 
  
     1. Start Arduino IDE, and create a new sketch ('File' -> 'New') 
@@ -27,110 +30,80 @@ To use SimpleEHF is actually quite easy. After downloading this repository, unpa
     4. Copy or move the src folder in the root of the unpacked repo folder to the Arduino sketch folder
     5. Done! You are ready to develop incredible applications
 
+In the example folder you can find an application ready to run on Grove kits. You will need to install the required third party libraries through Arduino IDE though. The example is a good source of information on how to utilize the framework for a real application.  
 
 # Usage
 
-Once SimpleEHF is installed, you should import the disired classes of the framework to your code and instantiate then. An application commonly consists of one instance of scheduler, multiple instances of components and multiple instances of 
 
+Once SimpleEHF is installed, you should import the disired classes of the framework to your code and instantiate then. A common application consists of one instance of Scheduler, multiple instances of components, multiple instaces of tasks and one instance of Energy Management.
 
-Instanciar o scheduler
+To initialize the framework in your project for a common aplication, follow these steps:
 
-Criar os componentes
+1.	Import the necessary classes from the SimpleEHF framework.
+2.	Create an instance of the Scheduler class to manage task scheduling.	
+3.	Initialize the extended Sensor, Actuator and Radio classes as per your project requirements.
+4.  Initialize the EnergyManager class as per your project requirements.
+4.  Create new tasks and add them to the scheduler
+5.  Initialize the scheduler
 
-Criar as tasks
-
-Adicionar as tasks ao scheduler
-
-
-
-Allows multiple tasks to run at the same time, without interrupting each other. For Arduino sam and samd architectures only (Due, Zero...).
-The Scheduler library enables the Arduino to run multiple functions at the same time. This allows tasks to happen without interrupting each other.This is a cooperative scheduler in that the CPU switches from one task to another. The library includes methods for passing control between tasks. 
-
-
-**mobilityDrones-omnetpp.ini** 
-
-```
-# Scene's coordinates
-*.coordinateSystem.sceneLongitude = -47.926634deg
-*.coordinateSystem.sceneLatitude = -15.840075deg
-*.coordinateSystem.sceneHeading = 90deg
-
-```
-
-# Project Structure
-## Diagrams
-**Project Structure Diagram**
-![Project structure diagram](assets/structure_diagram.png)
-
-
-SimpleEHF offers a series of interfaces that control commom energy harvesting devices hardware. Our objective was to create a module that was capable of simulating a very simple UAV mobility model and could react to network events. This setup allows support for a wide array of possible UAV coordination protocols.
-
-* **MobilityCommand.msg**
-```C++
-// Commands that the mobility module should be capable of carrying out
-enum MobilityCommandType {
-    // Makes the UAV reverse on its course
-    // No params
-    REVERSE=0; 
-    
-    // Makes the UAV travel to a specific waypoint, following the tour pack
-    // Param 1: Waypoint index
-    GOTO_WAYPOINT=1;
-    
-    // Makes the UAV go to a specific coordinate and orient itself so it can continue the tour afterwards
-    // Param 1: x component of the coord
-    // Param 2: y component of the coord
-    // Param 3: z component of the coord
-    // Param 4: Next waypoint (Waypoint the UAV should go to after reaching the target)
-    // Param 5: Last waypoint (Waypoint the UAV used to reach the coords)
-    GOTO_COORDS=2;
-}
-
-// Message declaration containing the command Id and its parameters 
-message MobilityCommand {
-    MobilityCommandType commandType;
-    double param1=-1;
-    double param2=-1;
-    double param3=-1;
-    double param4=-1;
-    double param5=-1;
-}
-```
 
 # Development
 
 ## Creating a new task
 
+To create a task in the SimpleEHF framework, follow these steps:
+
+1.	Define a new class that extends the Task class.
+2.	Implement the required methods and logic for your specific task. You must write all your logic in the method runTask() 
+3.	Instantiate the created class
+4.	Set the priority and dependencies of the task as needed through the method setPriority().
+
+## Executing Tasks
+
+To execute tasks using the SimpleEHF framework, follow these steps:
+
+1.	Add the tasks to the Scheduler using the method addTask().
+2.	Initialize the scheduler by calling the method procTasks();
+3.	The Scheduler will execute the tasks based on their priorities and available energy.
+
+
+## Removing Tasks
+
+To remove tasks from the scheduler at runtime using the SimpleEHF framework, follow these steps:
+
+1.	Remove the task of Scheduler using the method removeTask().
+2.	The Scheduler will not execute the task anymore
+
 
 
 ## Developing your own component
 
-### 1. Sensors
-### 2. Actuators
-### 3. Radio
+### Sensors
 
-**SimpleMessage.msg**
-```C++
-// communication/messages/network/SimpleMessage.msg
+To integrate a sensor into your project, follow these steps:
+1.	Define a new class that extends the Sensor class or use the provided GenericSensor class.
+2.	Implement the necessary methods to read data from the sensor.
+3.	Use the sensor data within your tasks or for energy management purposes.
 
-// Network messages need to extend from the FieldsChunk class or other chunk classes
-import inet.common.packet.chunk.Chunk;
+### Actuators
 
-namespace inet;
+To integrate an actuator into your project, follow these steps:
+1.	Define a new class that extends the Actuator class or use the provided GenericActuator class.
+2.	Implement the required methods to control the actuator.
+3.	Use the actuator within your tasks or for energy management decisions.
 
-enum SenderType
-{
-  DRONE = 0;
-  SENSOR = 1;
-  GROUND_STATION = 2;
-}
+### Radio
 
-class SimpleMessage extends FieldsChunk
-{
-    chunkLength = B(7); // Fixed chunk length
-    SenderType senderType;
-    int content;
-}
-```
+To integrate a radio module into your project, follow these steps:
+1.	Define a new class that extends the Radio class or use the provided GenericRadio class.
+2.	Implement the necessary methods to send and receive data using the radio module.
+3.	Utilize the radio module for communication purposes within your tasks.
 
-Our protocols will use this message definition to communicate with eachother. Next let's define our UAV's protocol. All it needs to do is contantly emit messages with it's current data load, listen to messages from sensors to load more data and listen to messages from the groundStation to unload. The only parameter we are defining is the timeoutDuration, we will not override the default value but it is good to have the option to increase or decrease the UAV's timeout. This timeout will be activated to prevent over-communication with the sensors and ground station.
+## Energy Manager
+
+The SimpleEHF framework provides energy management capabilities to optimize energy usage in your project. Use the following steps to utilize this feature:
+1.	Create an instance of the EnergyManager class.
+2.	Set the low voltage threshold of the system by calling the method SetLowVoltage().
+3.	Use the method getLowVoltage() to make informed decisions within your tasks. 
+You can also use the method setAutoMonitor() to configure a monitor that observes a user specified voltage periodically. When the voltage in the energy buffer equals the specified voltage, the auto monitor method calls the method onAutoMonitorEventRun(), which contains user logic to react to voltage events.   
+
