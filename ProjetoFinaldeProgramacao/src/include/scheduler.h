@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 #include "./task.h"
+#include "./energyManager.h"
 #include "./utils.h"
 
 
@@ -27,10 +28,12 @@ private:
 
     uint8_t tasksCount;
     Task* taskList[MAX_TASKS];
+    EnergyManager* energyManager = nullptr;
    
 
 public:
     Scheduler();
+    Scheduler(EnergyManager* energyManager);
 
     bool addTask(Task* task);
     bool removeTask(uint8_t taskID);

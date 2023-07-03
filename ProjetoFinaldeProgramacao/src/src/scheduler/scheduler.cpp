@@ -4,6 +4,12 @@ Scheduler :: Scheduler(){
     this->tasksCount = 0;
 }
 
+Scheduler :: Scheduler(EnergyManager* energyManager){
+    this->tasksCount = 0;
+    this->energyManager = energyManager;
+}
+
+
 bool Scheduler :: addTask(Task* task){
     
     if (tasksCount >= MAX_TASKS){
