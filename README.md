@@ -3,7 +3,7 @@ A simple framework for energy harvesting applications on Arduino
 
 # Introduction
 
-SimpleEHF is a framework to help programers develop energy harvesting applications on Arduino. Written in C++, SimpleEHF focuses on ease of use and includes an energy management module and a non-preemptive priority based scheduler, ideal for task-based energy harvesting applications.
+SimpleEHF is a framework to help programmers develop energy harvesting applications on Arduino. Written in C++, SimpleEHF focuses on ease of use and includes an energy management module and a non-preemptive priority based scheduler, ideal for task-based energy harvesting applications.
 
 To guarantee easy extensibility, SimpleEHF offers a set of extension points to commom hardware components present in energy harvesting devices. The following list gives an overview of the available hardware interfaces, to each of which you may add your own extension. To facilitate your life, SimpleEHF ships with a set of interfaces commonly used by these hardware components: 
 
